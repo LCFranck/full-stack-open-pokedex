@@ -1,5 +1,5 @@
 // @ts-check
-import { defineConfig, devices } from '@playwright/test';
+import { defineConfig, devices } from '@playwright/test'
 
 /**
  * Read environment variables from file.
@@ -25,7 +25,7 @@ export default defineConfig({
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
-   webServer: {
+  webServer: {
     command: 'npm run start-prod',
     url: 'http://localhost:5000',
     timeout: 120 * 1000,
@@ -73,5 +73,5 @@ export default defineConfig({
     // },
   ],
 
-});
+})
 
