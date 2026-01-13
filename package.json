@@ -10,7 +10,7 @@
     "lint": "eslint ./**/*.{js,jsx}",
     "lintfix": "eslint --fix --ext .js,.jsx .",
     "build": "webpack --mode production",
-    "play-test": "playwright test",
+    "test:e2e": "playwright test",
     "test:report": "playwright show-report"
 
   },
