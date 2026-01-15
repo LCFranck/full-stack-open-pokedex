@@ -21,4 +21,4 @@ jobs:
       - name: Check tests
         run: npm test
       - name: Trigger deployment
-        run: curl https://api.render.com/deploy/srv-${{ secrets.RENDER_HOOK }}?key=${{ secrets.RENDER_API }}
+        run: curl ${{ secrets.RENDER_HOOK }}
