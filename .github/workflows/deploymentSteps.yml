@@ -1,7 +1,5 @@
 name: Deployment pipeline (lint, tests and deployment)
 
-
-
 on:
   push:
     branches:
@@ -9,6 +7,7 @@ on:
   pull_request:
     branches: [main]
     types: [opened, synchronize]
+
 
 jobs:
   simple_deployment_pipeline:
@@ -27,14 +26,14 @@ jobs:
       - name: Trigger deployment
         if: ${{ github.event_name == 'push' }}
         run: curl ${{ secrets.RENDER_HOOK }}
-      
+
   tag_release:
     needs: [simple_deployment_pipeline]
-    uses: actions/checkout@v4
-    runs-on: ubuntu-latest
-    steps:
+    runs-on: ubuntu-latest   
+    steps:  
+    - uses: actions/checkout@v4
     - name: Bump version and push tag
-      if: ${{ github.event_name == 'push' }}
+      if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ' '), '#skip') }}
       uses: anothrNick/github-tag-action@1.64.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
