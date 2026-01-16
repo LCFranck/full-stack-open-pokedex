@@ -1,7 +1,5 @@
 name: Deployment pipeline (lint, tests and deployment)
 
-
-
 on:
   push:
     branches:
@@ -27,7 +25,7 @@ jobs:
       - name: Trigger deployment
         if: ${{ github.event_name == 'push' }}
         run: curl ${{ secrets.RENDER_HOOK }}
-      
+
   tag_release:
     needs: [simple_deployment_pipeline]
     runs-on: ubuntu-latest   
