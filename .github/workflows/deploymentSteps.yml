@@ -75,8 +75,6 @@ jobs:
 
   scheduled_:check:
     runs-on: ubuntu-latest   
-
-    runs-on: ubuntu-latest
     steps:
       - name: Check the deployed service URL
         uses: jtalk/url-health-check-action@v4
