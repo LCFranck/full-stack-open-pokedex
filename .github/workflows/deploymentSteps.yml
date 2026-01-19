@@ -30,6 +30,22 @@ jobs:
         if: ${{ github.event_name == 'push' }}
         run: curl ${{ secrets.RENDER_HOOK }}
 
+      - name: Check the deployed service URL
+        uses: jtalk/url-health-check-action@v4
+        with:
+          urls: https://full-stack-open-pokedex-tqgq.onrender.com/health
+          # Follow redirects, or just report success on 3xx status codes
+          follow-redirect: false # Optional, defaults to "false"
+          # Fail this action after this many failed attempts
+          max-attempts: 3
+          retry-delay: 10s
+          retry-all: true
+          # Optional, only applicable to max-attempts > 1
+          # Retry all errors, including 404. This option might trigger curl upgrade.
+          # String representation of cookie attached to health check request.
+          # Format: `Name=Value`
+      
+      
       - name: The job has succeeded
         if: ${{ success() }}
         uses: rjstone/discord-webhook-notify@v2
@@ -58,21 +74,6 @@ jobs:
           description: "Deployment FAILED"
           # details: not needed because we overrode default description.
           footer: Do better!.
-      - name: Check the deployed service URL
-        uses: jtalk/url-health-check-action@v4
-        with:
-          urls: https://full-stack-open-pokedex-tqgq.onrender.com/health
-          # Follow redirects, or just report success on 3xx status codes
-          follow-redirect: false # Optional, defaults to "false"
-          # Fail this action after this many failed attempts
-          max-attempts: 6
-          retry-delay: 10s
-          retry-all: true
-          # Optional, only applicable to max-attempts > 1
-          # Retry all errors, including 404. This option might trigger curl upgrade.
-          retry-all: false # Optional, defaults to "false"
-          # String representation of cookie attached to health check request.
-          # Format: `Name=Value`
 
 
   tag_release:
