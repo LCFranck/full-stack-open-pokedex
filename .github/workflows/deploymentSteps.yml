@@ -19,24 +19,62 @@ jobs:
           node-version: '20'
       - name: Install dependencies
         run: npm install
+
       - name: Check style 
         run: npm run lint
+
       - name: Check tests
         run: npm test
+
       - name: Trigger deployment
         if: ${{ github.event_name == 'push' }}
         run: curl ${{ secrets.RENDER_HOOK }}
+
+      - name: The job has succeeded
+        if: ${{ success() }}
+        uses: rjstone/discord-webhook-notify@v2
+        with:
+          webhookUrl: ${{ secrets.DISCORD_HOOK_URL }}
+          username: Sten Stensson
+          avatarUrl: "https://media.istockphoto.com/id/184600247/photo/grumpy-senior-man.jpg?s=612x612&w=0&k=20&c=_mBQPDcq1E3Vyz5uiw8QnwAikXVcdtiRChvrMUyuzRw="
+          text: "JIPPIIII Deployment succeeded!!!!!!!!!!"
+          severity: info # only to make sure the embed is added
+          color: '#A0FF85'
+          title: Success!
+          description: "Deployment of "
+          # details: not needed because we overrode default description.
+          footer: Well done!.
+      - name: The job has FAILED
+        if: ${{ failure() }}
+        uses: rjstone/discord-webhook-notify@v2
+        with:
+          webhookUrl: ${{ secrets.DISCORD_HOOK_URL }}
+          username: Sten Stensson
+          avatarUrl: "https://media.istockphoto.com/id/184600247/photo/grumpy-senior-man.jpg?s=612x612&w=0&k=20&c=_mBQPDcq1E3Vyz5uiw8QnwAikXVcdtiRChvrMUyuzRw="
+          text: " Deployment FAILED!!!!!!!!!!"
+          severity: info # only to make sure the embed is added
+          color: '#C7371A'
+          title: EPIC FAIL!
+          description: "Deployment FAILED"
+          # details: not needed because we overrode default description.
+          footer: Do better!.
+
 
   tag_release:
     needs: [simple_deployment_pipeline]
     runs-on: ubuntu-latest   
     steps:  
-    - uses: actions/checkout@v4
-    - name: Bump version and push tag
-      if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ' '), '#skip') }}
-      uses: anothrNick/github-tag-action@1.64.0
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v4
+      - name: Bump version and push tag
+        if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ' '), '#skip') }}
+        uses: anothrNick/github-tag-action@1.64.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
+
+  
+
       
 
       
