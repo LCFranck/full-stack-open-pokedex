@@ -30,6 +30,8 @@ jobs:
         if: ${{ github.event_name == 'push' }}
         run: curl ${{ secrets.RENDER_HOOK }}
 
+      
+      
       - name: The job has succeeded
         if: ${{ success() }}
         uses: rjstone/discord-webhook-notify@v2
@@ -41,7 +43,7 @@ jobs:
           severity: info # only to make sure the embed is added
           color: '#A0FF85'
           title: Success!
-          description: "Deployment of "
+          description: "Deployment was successful :) "
           # details: not needed because we overrode default description.
           footer: Well done!.
       - name: The job has FAILED
@@ -73,8 +75,11 @@ jobs:
 
 
 
+
+
+
+
+
   
 
-      
-
-      
+  
