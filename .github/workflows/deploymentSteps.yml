@@ -73,7 +73,7 @@ jobs:
 
 
 
-  scheduled_:check:
+  scheduled_check:
     runs-on: ubuntu-latest   
     steps:
       - name: Check the deployed service URL
