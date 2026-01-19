@@ -54,7 +54,7 @@ jobs:
           text: " Deployment FAILED!!!!!!!!!!"
           severity: info # only to make sure the embed is added
           color: '#C7371A'
-          title: Success!
+          title: EPIC FAIL!
           description: "Deployment FAILED"
           # details: not needed because we overrode default description.
           footer: Do better!.
