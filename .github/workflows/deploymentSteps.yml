@@ -60,29 +60,6 @@ jobs:
           footer: Do better!.
 
 
-    
-  Discord_message:
-    runs-on: ubuntu-latest   
-    steps:
-      
-
-      
-
-      - name: Discord bot notification
-        uses: rjstone/discord-webhook-notify@v2
-        with:
-          webhookUrl: ${{ secrets.DISCORD_HOOK_URL }}
-          username: Captain Hook
-          avatarUrl: https://media.istockphoto.com/id/184600247/photo/grumpy-senior-man.jpg?s=612x612&w=0&k=20&c=_mBQPDcq1E3Vyz5uiw8QnwAikXVcdtiRChvrMUyuzRw=
-          text: Below this normal-looking message is an embed!
-          severity: info # only to make sure the embed is added
-          color: '#ff00aa'
-          title: My Fancy Embed Title
-          description: "This is a ***SuPeR custom*** description. I hope it looks good."
-          # details: not needed because we overrode default description.
-          footer: This embed was brought to you by the letter R and the number 4.
-
-
   tag_release:
     needs: [simple_deployment_pipeline]
     runs-on: ubuntu-latest   
