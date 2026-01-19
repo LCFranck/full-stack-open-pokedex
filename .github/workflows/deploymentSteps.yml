@@ -19,7 +19,7 @@ jobs:
           node-version: '20'
       - name: Install dependencies
         run: npm install
-        
+
       - name: Check style 
         run: npm run lint
 
@@ -29,6 +29,44 @@ jobs:
       - name: Trigger deployment
         if: ${{ github.event_name == 'push' }}
         run: curl ${{ secrets.RENDER_HOOK }}
+
+      - name: The job has succeeded
+        if: ${{ success() }}
+        uses: rjstone/discord-webhook-notify@v2
+        with:
+          webhookUrl: ${{ secrets.DISCORD_HOOK_URL }}
+          username: Sten Stensson
+          avatarUrl: "https://media.istockphoto.com/id/184600247/photo/grumpy-senior-man.jpg?s=612x612&w=0&k=20&c=_mBQPDcq1E3Vyz5uiw8QnwAikXVcdtiRChvrMUyuzRw="
+          text: "JIPPIIII Deployment succeeded!!!!!!!!!!"
+          severity: info # only to make sure the embed is added
+          color: '#A0FF85'
+          title: Success!
+          description: "Deployment of "
+          # details: not needed because we overrode default description.
+          footer: Well done!.
+      - name: The job has FAILED
+        if: ${{ failure() }}
+        uses: rjstone/discord-webhook-notify@v2
+        with:
+          webhookUrl: ${{ secrets.DISCORD_HOOK_URL }}
+          username: Sten Stensson
+          avatarUrl: "https://media.istockphoto.com/id/184600247/photo/grumpy-senior-man.jpg?s=612x612&w=0&k=20&c=_mBQPDcq1E3Vyz5uiw8QnwAikXVcdtiRChvrMUyuzRw="
+          text: " Deployment FAILED!!!!!!!!!!"
+          severity: info # only to make sure the embed is added
+          color: '#C7371A'
+          title: Success!
+          description: "Deployment FAILED"
+          # details: not needed because we overrode default description.
+          footer: Do better!.
+
+
+    
+  Discord_message:
+    runs-on: ubuntu-latest   
+    steps:
+      
+
+      
 
       - name: Discord bot notification
         uses: rjstone/discord-webhook-notify@v2
@@ -43,6 +81,7 @@ jobs:
           description: "This is a ***SuPeR custom*** description. I hope it looks good."
           # details: not needed because we overrode default description.
           footer: This embed was brought to you by the letter R and the number 4.
+
 
   tag_release:
     needs: [simple_deployment_pipeline]
