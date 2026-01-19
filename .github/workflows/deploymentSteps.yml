@@ -58,24 +58,6 @@ jobs:
           description: "Deployment FAILED"
           # details: not needed because we overrode default description.
           footer: Do better!.
-
-
-  tag_release:
-    needs: [simple_deployment_pipeline]
-    runs-on: ubuntu-latest   
-    steps:  
-      - uses: actions/checkout@v4
-      - name: Bump version and push tag
-        if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ' '), '#skip') }}
-        uses: anothrNick/github-tag-action@1.64.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-
-
-  scheduled_check:
-    runs-on: ubuntu-latest   
-    steps:
       - name: Check the deployed service URL
         uses: jtalk/url-health-check-action@v4
         with:
@@ -92,7 +74,21 @@ jobs:
           retry-all: false # Optional, defaults to "false"
           # String representation of cookie attached to health check request.
           # Format: `Name=Value`
-        
+
+
+  tag_release:
+    needs: [simple_deployment_pipeline]
+    runs-on: ubuntu-latest   
+    steps:  
+      - uses: actions/checkout@v4
+      - name: Bump version and push tag
+        if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ' '), '#skip') }}
+        uses: anothrNick/github-tag-action@1.64.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
+
 
 
 
